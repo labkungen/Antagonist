@@ -6,78 +6,125 @@ public class Ant : MonoBehaviour
 {
     //identity data
     public GameObject homeAnthill;
-    private GameManager gameManager;
+    //private GameManager gameManager;
 
     //limitations
+    private float worldRange = 100f;
    
     [SerializeField] private float movementSpeed;
     [SerializeField] private int hitpoints;
 
 
     //activities
-    Vector3 movementVector;
+    Vector3 targetLocation;
     bool isInHive;
     bool isReturningFromMission;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public bool hasAFoodSource;
+    private bool isAtFoodSource;
+    public Vector3 harvestingFoodAtLocation; 
 
     private void Awake()
     {
-        //set gamemanager?
-        //set home anthill
-        //isInHive = true;  //all ants wake in hive
-        //movementVector =
-        NewRandomDirection();
+        NewRandomTargetLocation();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Move();
-        
+        Move();   
     }
 
     //protected abstract void Scout();
 
     public virtual void Move()
     {
-        transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);
-        //check for edge of world
-        //if()
-    }
+       
+        float step = movementSpeed * Time.deltaTime; // calculate distance to move
+        transform.position = Vector3.MoveTowards(transform.position, targetLocation, step);
 
-    protected void NewRandomDirection()
-    {
-        //return new Vector3(Random.Range(-1.0f, 1.0f), 0, Random.Range(-1.0f, 1.0f));
-        transform.Rotate(new Vector3(0, Random.Range(transform.rotation.y - 15, transform.rotation.y + 15), 0));
-    }
-
-    public void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Food"))
+        if (transform.position.y != 0.15)
         {
-            Debug.Log("Found food! - collision");
+            
+            
+        }
+
+        //check reached location
+        if (Vector3.Distance(transform.position, targetLocation) < 0.001f)
+        {
+            if (!hasAFoodSource || (!isAtFoodSource && !isReturningFromMission))
+            {
+                NewRandomTargetLocation();
+                hasAFoodSource = false;
+            }
+            else
+            {
+                targetLocation = harvestingFoodAtLocation;
+                isReturningFromMission = false;
+            }
+            
+            
         }
     }
 
-    public void OnTriggerEnter(Collider other)
+    protected virtual void NewRandomTargetLocation()
     {
-        Debug.Log("Triggered!");
+        float newRandomX = Random.Range(transform.position.x - 2, transform.position.x + 2);
+        float newRandomZ = Random.Range(transform.position.z - 2, transform.position.z + 2);
+
+        //check vs worldborder
+        if (newRandomX > worldRange)
+        {
+            newRandomX = worldRange;
+        }
+
+        if (newRandomX < -worldRange)
+        {
+            newRandomX = -worldRange;
+        }
+
+        if(newRandomZ > worldRange)
+        {
+            newRandomZ = worldRange;
+        }
+
+        if (newRandomZ < -worldRange)
+        {
+            newRandomZ = -worldRange;
+        }
+
+        targetLocation = new Vector3(newRandomX, 0.15f, newRandomZ);
+        
+    }
+
+      protected virtual void OnTriggerEnter(Collider other)
+    {
         if (other.gameObject.CompareTag("Food"))
         {
-            Debug.Log("Found food!");
-
-            //found food - stop
-            movementVector = Vector3.zero;
-
+            harvestingFoodAtLocation = other.gameObject.transform.position;
+            hasAFoodSource = true;
+            isAtFoodSource = true;
+            
             //do stuff with food
+            other.gameObject.GetComponent<Food>().ReduceFoodItemByPortion(10);
 
             //back to stack
-            transform.LookAt(homeAnthill.transform);
+            targetLocation = homeAnthill.GetComponent<Anthill>().entrancePosition;
+            isAtFoodSource = false;
+            isReturningFromMission = true;
+        }
+
+        if (other.gameObject.CompareTag("Ant"))
+        {
+            //Todo:check team!!1
+
+            Debug.Log("Ant met ant!");
+
+            if (!hasAFoodSource && other.GetComponent<Ant>().hasAFoodSource)
+            {
+                hasAFoodSource = true;
+                harvestingFoodAtLocation = other.GetComponent<Ant>().harvestingFoodAtLocation;
+                targetLocation = harvestingFoodAtLocation;
+            }
         }
     }
 }

@@ -6,29 +6,25 @@ public class Food : MonoBehaviour
 {
     [SerializeField] private int nutrition { get; }
     [SerializeField] private int amount = 100;
+    private int currentAmount;
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        RefreshItems();
     }
 
     public virtual void ReduceFoodItemByPortion(int portion)
     {
-        amount -= portion;
+        currentAmount -= portion;
 
-        if (amount <= 0)
+        if (currentAmount <= 0)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 
-
+    public virtual void RefreshItems()
+    {
+        currentAmount = amount;
+    }
 }

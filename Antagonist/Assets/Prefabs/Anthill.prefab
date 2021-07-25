@@ -139,4 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb745f77f3ea46dab2f8f5e14671872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  antPrefab: {fileID: 668045304087558421, guid: 1dcc3933ad19441cea3b5e7bc4c49ee1, type: 3}
+  antPrefab: {fileID: 4904217231453060043, guid: 79c2cb0648a274b1ba9663afd5ef0987, type: 3}
+  teamColor: {r: 0, g: 0, b: 0, a: 0}
+  entrancePosition: {x: 0, y: 0, z: 0}
+  antCount: 0
