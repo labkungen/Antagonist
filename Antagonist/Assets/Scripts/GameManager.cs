@@ -2,11 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 
 public class GameManager : MonoBehaviour
 {
     //game world information
     float gameWorldLimit = 100.0f;
+
+    //GUI
+    public TextMeshProUGUI anthill1Text;
+    
+
 
     //team colors
     Color redTeamColor = new Color(0.27f, 0.03f, 0.04f, 1f);
@@ -19,7 +29,12 @@ public class GameManager : MonoBehaviour
     //prefabs
     public GameObject foodPrefab;
     public GameObject anthillPrefab;
+
+    //data
     List<Food> listOfInactiveFoods = new List<Food>();
+    List<GameObject> anthills = new List<GameObject>();
+    GameObject player;
+
 
     // Start is called before the first frame update
     void Start()
@@ -29,10 +44,12 @@ public class GameManager : MonoBehaviour
         {
             SpawnAnthill();
         }*/
-        SpawnAnthill(yellowTeamColor);
-        SpawnAnthill(redTeamColor);
-        SpawnAnthill(blueTeamColor);
-        SpawnAnthill(greenTeamColor);
+
+        anthills.Add(SpawnAnthill(yellowTeamColor, true));
+        anthills.Add(SpawnAnthill(redTeamColor, false));
+        anthills.Add(SpawnAnthill(blueTeamColor, false));
+        anthills.Add(SpawnAnthill(greenTeamColor,false));
+        
 
         //spawn starting food
         SpawnFoodItems(numberOfFoodSources);
@@ -56,13 +73,18 @@ public class GameManager : MonoBehaviour
 
   
 
-    private void SpawnAnthill(Color teamColor)
+    private GameObject SpawnAnthill(Color teamColor, bool isPlayer)
     {
         GameObject newHill = Instantiate(anthillPrefab, MiniWoldlocation()/*RandomGameWorldLocation()*/, anthillPrefab.transform.rotation);
         newHill.GetComponent<Anthill>().teamColor = teamColor;
         //newHill.GetComponent<Anthill>().antPrefab = FindObjectOfType
 
-        //TODO: Restrict from extreme edges and set minimum distance to other anthill
+        if (isPlayer)
+        {
+            player = newHill;
+        }
+
+        return newHill;
     }
 
     public void SpawnFoodItems(int amount)
@@ -120,7 +142,22 @@ public class GameManager : MonoBehaviour
                 food.transform.position = RandomGameWorldLocation();
             }
         }
+        //Update GUI
+        UpdateGUI();
+    }
 
+    public void UpdateGUI()
+    {
+        anthill1Text.text = player.GetComponent<Anthill>().ReportHillStatus();
+    }
+
+    public void QuitButtonPressed()
+    {
+#if UNITY_EDITOR
+        EditorApplication.ExitPlaymode();
+#else
+Application.Quit();
+#endif
     }
 
 }

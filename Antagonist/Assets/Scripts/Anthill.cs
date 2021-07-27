@@ -88,4 +88,8 @@ public class Anthill : MonoBehaviour
         }
     }
 
+    public string ReportHillStatus()
+    {
+        return ("Anthill1: Resource: " + storedFood + " " + antCount + "Ants (" + percentageSoldiers + "% soldiers)");
+    }
 }

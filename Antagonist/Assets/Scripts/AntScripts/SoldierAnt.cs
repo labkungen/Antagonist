@@ -2,23 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//INHERITANCE
 public class SoldierAnt : Ant
 {
     private GameObject targetOfAttack;
     private int damageOutputMax;
 
-    // Start is called before the first frame update
- /*   void Start()
-    {
-        NewRandomTargetLocation();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Move();
-    }*/
-
+ //ABSTRACTION
     protected override void ResolveContactWithAnt(Collider other)
     {
         Debug.Log("Soldier ant met other ant (" + homeAnthill.GetInstanceID() + " / " + other.gameObject.GetComponent<Ant>().homeAnthill.GetInstanceID());
