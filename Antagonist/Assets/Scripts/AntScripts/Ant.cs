@@ -4,23 +4,27 @@ using UnityEngine;
 
 public class Ant : MonoBehaviour
 {
+    public enum AntType { Soldier, Worker, Queen, Larva }
+
     //identity data
     public GameObject homeAnthill;
-    //private GameManager gameManager;
+    public AntType antType  = AntType.Larva;
+    protected int hitPoints = 50;
+    public GameObject deadAntPrefab;
 
     //limitations
     private float worldRange = 100f;
    
     [SerializeField] private float movementSpeed;
-    [SerializeField] private int hitpoints;
+    //[SerializeField] private int hitpoints;
 
 
     //activities
-    Vector3 targetLocation;
+    protected Vector3 targetLocation;
     bool isInHive;
-    bool isReturningFromMission;
+    protected bool isReturningFromMission;
     public bool hasAFoodSource;
-    private bool isAtFoodSource;
+    protected bool isAtFoodSource;
     public Vector3 harvestingFoodAtLocation; 
 
     private void Awake()
@@ -44,7 +48,7 @@ public class Ant : MonoBehaviour
 
         if (transform.position.y != 0.15)
         {
-            
+            //TODO: Was this ever relevant?
             
         }
 
@@ -100,31 +104,53 @@ public class Ant : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Food"))
         {
-            harvestingFoodAtLocation = other.gameObject.transform.position;
-            hasAFoodSource = true;
-            isAtFoodSource = true;
-            
-            //do stuff with food
-            other.gameObject.GetComponent<Food>().ReduceFoodItemByPortion(10);
-
-            //back to stack
-            targetLocation = homeAnthill.GetComponent<Anthill>().entrancePosition;
-            isAtFoodSource = false;
-            isReturningFromMission = true;
+            ResolveContactWithFood(other);
         }
 
         if (other.gameObject.CompareTag("Ant"))
         {
             //Todo:check team!!1
 
-            Debug.Log("Ant met ant!");
-
-            if (!hasAFoodSource && other.GetComponent<Ant>().hasAFoodSource)
-            {
-                hasAFoodSource = true;
-                harvestingFoodAtLocation = other.GetComponent<Ant>().harvestingFoodAtLocation;
-                targetLocation = harvestingFoodAtLocation;
-            }
+            //Debug.Log("Ant met ant!");
+            ResolveContactWithAnt(other);
+            
         }
+    }
+
+    protected virtual void ResolveContactWithFood(Collider other)
+    {
+      /*  harvestingFoodAtLocation = other.gameObject.transform.position;
+        hasAFoodSource = true;
+        isAtFoodSource = true;
+
+        //do stuff with food
+        other.gameObject.GetComponent<Food>().ReduceFoodItemByPortion(10);
+
+        //back to stack
+        targetLocation = homeAnthill.GetComponent<Anthill>().entrancePosition;
+        isAtFoodSource = false;
+        isReturningFromMission = true;*/
+    }
+
+    protected virtual void ResolveContactWithAnt(Collider other)
+    {
+        /*if (!hasAFoodSource && other.GetComponent<Ant>().hasAFoodSource)
+        {
+            hasAFoodSource = true;
+            harvestingFoodAtLocation = other.GetComponent<Ant>().harvestingFoodAtLocation;
+            targetLocation = harvestingFoodAtLocation;
+        }*/
+    }
+
+    public void ChangeAntToFood()
+    {
+        Debug.Log("I whow am about to die salute you! (" + GetInstanceID() + " )");
+        GameObject deadAnt = Instantiate(deadAntPrefab, transform.position, deadAntPrefab.transform.rotation);
+        //deadAnt.GetComponent<Ant>().homeAnthill = gameObject;
+        deadAnt.GetComponent<Renderer>().material.color = homeAnthill.GetComponent<Anthill>().teamColor;
+        homeAnthill.GetComponent<Anthill>().ReduceNumberOfAnts(1);
+        Destroy(gameObject, 1f);
+
+        
     }
 }

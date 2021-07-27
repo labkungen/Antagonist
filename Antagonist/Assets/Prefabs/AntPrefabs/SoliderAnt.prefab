@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4904217231453060043
+--- !u!1 &2366997480888384497
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4904217231453060055}
-  - component: {fileID: 4904217231453060054}
-  - component: {fileID: 4904217231453060053}
-  - component: {fileID: 4904217231453060052}
-  - component: {fileID: 803583283137060475}
-  - component: {fileID: 4904217231453060049}
+  - component: {fileID: 2366997480888384493}
+  - component: {fileID: 2366997480888384492}
+  - component: {fileID: 2366997480888384495}
+  - component: {fileID: 2366997480888384494}
+  - component: {fileID: 2366997480888384491}
+  - component: {fileID: -2883917938914672249}
   m_Layer: 0
-  m_Name: NewAnt
+  m_Name: SoliderAnt
   m_TagString: Ant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4904217231453060055
+--- !u!4 &2366997480888384493
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4904217231453060043}
+  m_GameObject: {fileID: 2366997480888384497}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.783, y: 0.15, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalPosition: {x: 11.194, y: 0.15, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4904217231453060054
+--- !u!33 &2366997480888384492
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4904217231453060043}
+  m_GameObject: {fileID: 2366997480888384497}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &4904217231453060053
+--- !u!23 &2366997480888384495
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4904217231453060043}
+  m_GameObject: {fileID: 2366997480888384497}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -84,44 +84,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4904217231453060052
+--- !u!65 &2366997480888384494
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4904217231453060043}
+  m_GameObject: {fileID: 2366997480888384497}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &803583283137060475
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4904217231453060043}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d1b3cf390283464d862fd74e6554164, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  homeAnthill: {fileID: 8807288146510568536, guid: 36c855a49b1ca4bfc94d07b98ddb8bcb, type: 3}
-  antType: 1
-  deadAntPrefab: {fileID: 4315816831180767813, guid: f39c328d300624bbfbbdbefcc505a1d1, type: 3}
-  movementSpeed: 5
-  hasAFoodSource: 0
-  harvestingFoodAtLocation: {x: 0, y: 0, z: 0}
---- !u!54 &4904217231453060049
+--- !u!54 &2366997480888384491
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4904217231453060043}
+  m_GameObject: {fileID: 2366997480888384497}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -131,3 +113,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-2883917938914672249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2366997480888384497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c8c1d3d50dab48dca912f754118062b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  homeAnthill: {fileID: 8807288146510568536, guid: 36c855a49b1ca4bfc94d07b98ddb8bcb, type: 3}
+  antType: 0
+  deadAntPrefab: {fileID: 4315816831180767813, guid: f39c328d300624bbfbbdbefcc505a1d1, type: 3}
+  movementSpeed: 7
+  hasAFoodSource: 0
+  harvestingFoodAtLocation: {x: 0, y: 0, z: 0}

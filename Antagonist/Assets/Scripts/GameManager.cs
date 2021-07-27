@@ -54,16 +54,15 @@ public class GameManager : MonoBehaviour
 
     }
 
-    /*public void RemoveFoodItem()
-    {
-        numberOfFoodSources--;
-    }*/
+  
 
     private void SpawnAnthill(Color teamColor)
     {
-        GameObject newHill = Instantiate(anthillPrefab, RandomGameWorldLocation(), anthillPrefab.transform.rotation);
+        GameObject newHill = Instantiate(anthillPrefab, MiniWoldlocation()/*RandomGameWorldLocation()*/, anthillPrefab.transform.rotation);
         newHill.GetComponent<Anthill>().teamColor = teamColor;
         //newHill.GetComponent<Anthill>().antPrefab = FindObjectOfType
+
+        //TODO: Restrict from extreme edges and set minimum distance to other anthill
     }
 
     public void SpawnFoodItems(int amount)
@@ -72,6 +71,11 @@ public class GameManager : MonoBehaviour
         {
             Instantiate(foodPrefab, RandomGameWorldLocation(), foodPrefab.transform.rotation);
         }
+    }
+
+    private Vector3 MiniWoldlocation()
+    {
+        return new Vector3(Random.Range(-gameWorldLimit/2, gameWorldLimit/2), 0, Random.Range(-gameWorldLimit/2, gameWorldLimit/2));
     }
 
     public Vector3 RandomGameWorldLocation()
