@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//INHERITANCE
+
 public class WorkerAnt : Ant
 {
     
@@ -29,6 +31,21 @@ public class WorkerAnt : Ant
             hasAFoodSource = true;
             harvestingFoodAtLocation = other.GetComponent<Ant>().harvestingFoodAtLocation;
             targetLocation = harvestingFoodAtLocation;
+        }
+    }
+
+    protected override void ResolveContactWithAnthill(Collider other)
+    {
+        if (!hasAFoodSource && GameObject.ReferenceEquals(other, homeAnthill))
+        {
+            //hasAFoodSource = false;  //Todo: Set elsewhere but should be here 
+            other.GetComponent<Anthill>().AddToListOfKnownFoodsources(harvestingFoodAtLocation);
+            other.GetComponent<Anthill>().StoreFood(10);
+        }
+
+        if (!GameObject.ReferenceEquals(other.gameObject, homeAnthill))
+        {
+            ChangeAntToFood();
         }
     }
 

@@ -6,8 +6,8 @@ using UnityEngine;
 //INHERITANCE
 public class SoldierAnt : Ant
 {
-    private GameObject targetOfAttack;
-    private int damageOutputMax;
+    private SoldierAnt targetOfAttack;
+    private int damageOutputMax = 3;
 
  //ABSTRACTION
     protected override void ResolveContactWithAnt(Collider other)
@@ -26,22 +26,59 @@ public class SoldierAnt : Ant
 
             if (other.gameObject.GetComponent<Ant>().antType == Ant.AntType.Soldier)
             {
-                Attack(other.gameObject);
+                Attack(other.gameObject.GetComponent<SoldierAnt>());
             }
         }
     }
 
-    private void Attack(GameObject attackTarget)
+    protected override void ResolveContactWithAnthill(Collider other)
     {
-        attackTarget.GetComponent<SoldierAnt>().ManageAttackFrom(this.gameObject, Random.Range(0,damageOutputMax));
-        targetOfAttack = attackTarget;
+        if (!GameObject.ReferenceEquals(other.gameObject, homeAnthill))
+        {
+            Attack(other.gameObject.GetComponent<Anthill>());
+        }
     }
+
+    private void Attack(SoldierAnt target)
+    {
+        target.ManageAttackFrom(gameObject, Random.Range(0, damageOutputMax));
+        targetOfAttack = target;
+    }
+
+    private void NewAttackLocation(Vector3 location)
+    {
+        targetLocation = location;
+    }
+
+    private void Attack(Anthill target)
+    {
+        Debug.Log("Solidier attacking enemy fort!");
+        SoldierAnt[] soldiers = FindObjectsOfType<SoldierAnt>();
+        
+        foreach (SoldierAnt soldier in soldiers)
+        {
+            if (targetOfAttack == null && ReferenceEquals(target, homeAnthill.GetComponent<Anthill>()))
+            {
+                NewAttackLocation(target.gameObject.transform.position);
+            }
+
+            target.ManageStructureDamage();
+            ChangeAntToFood(); //Suicide mission
+            
+        }
+
+    }
+
+   /* private void Attack(GameObject attackTarget)
+    {
+        
+    }*/
 
     public void ManageAttackFrom(GameObject attacker, int attackHitPoints)
     {
         if (targetOfAttack == null)
         {
-            targetOfAttack = attacker;
+            targetOfAttack = attacker.GetComponent<SoldierAnt>();
         }
 
         hitPoints -= attackHitPoints;

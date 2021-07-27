@@ -33,18 +33,15 @@ public class GameManager : MonoBehaviour
     //data
     List<Food> listOfInactiveFoods = new List<Food>();
     List<GameObject> anthills = new List<GameObject>();
-    GameObject player;
 
+    //ENCAPSULATION
+    public static GameObject player { get; private set;  }
+    //public GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
         //create anthills
-        /*for (int i = 0; i < 3; i++)
-        {
-            SpawnAnthill();
-        }*/
-
         anthills.Add(SpawnAnthill(yellowTeamColor, true));
         anthills.Add(SpawnAnthill(redTeamColor, false));
         anthills.Add(SpawnAnthill(blueTeamColor, false));
@@ -56,21 +53,20 @@ public class GameManager : MonoBehaviour
 
         //Regular update check on world items
         InvokeRepeating("WorldUpdate", 10f, 10f);
+
+        UpdateGUI();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-       /* //enough food?
-        if (numberOfFoodSources < 50)
-        {
-            int numberToAdd = Random.Range(5, 20);
-            SpawnFoodItems(numberToAdd);
-            numberOfFoodSources += numberToAdd;
-        }*/
-
+        UpdateGUI();
     }
 
+
+    public GameObject LocationOfPlayer()
+    {
+        return player;
+    }
   
 
     private GameObject SpawnAnthill(Color teamColor, bool isPlayer)

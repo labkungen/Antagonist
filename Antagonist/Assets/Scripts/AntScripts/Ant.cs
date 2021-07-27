@@ -46,11 +46,7 @@ public class Ant : MonoBehaviour
         float step = movementSpeed * Time.deltaTime; // calculate distance to move
         transform.position = Vector3.MoveTowards(transform.position, targetLocation, step);
 
-        if (transform.position.y != 0.15)
-        {
-            //TODO: Was this ever relevant?
-            
-        }
+       
 
         //check reached location
         if (Vector3.Distance(transform.position, targetLocation) < 0.001f)
@@ -115,32 +111,26 @@ public class Ant : MonoBehaviour
             ResolveContactWithAnt(other);
             
         }
+
+        if (other.gameObject.CompareTag("Anthill"))
+        {
+            ResolveContactWithAnthill(other);
+        }
     }
 
     protected virtual void ResolveContactWithFood(Collider other)
     {
-      /*  harvestingFoodAtLocation = other.gameObject.transform.position;
-        hasAFoodSource = true;
-        isAtFoodSource = true;
-
-        //do stuff with food
-        other.gameObject.GetComponent<Food>().ReduceFoodItemByPortion(10);
-
-        //back to stack
-        targetLocation = homeAnthill.GetComponent<Anthill>().entrancePosition;
-        isAtFoodSource = false;
-        isReturningFromMission = true;*/
+     
     }
 
     protected virtual void ResolveContactWithAnt(Collider other)
     {
-        /*if (!hasAFoodSource && other.GetComponent<Ant>().hasAFoodSource)
-        {
-            hasAFoodSource = true;
-            harvestingFoodAtLocation = other.GetComponent<Ant>().harvestingFoodAtLocation;
-            targetLocation = harvestingFoodAtLocation;
-        }*/
+       
     }
+
+    protected virtual void ResolveContactWithAnthill(Collider other)
+    { }
+
 
     public void ChangeAntToFood()
     {

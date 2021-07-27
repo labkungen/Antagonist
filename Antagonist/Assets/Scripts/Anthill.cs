@@ -12,7 +12,7 @@ public class Anthill : MonoBehaviour
 
     //Material teamMaterial;
     public Color teamColor;// = new Color(0.27f, 0.03f, 0.04f, 1f);
-
+    public bool isPlayer;
     //locations
     public Vector3 entrancePosition; // { get; }
     private List<Vector3> listOfKnownFoodSources = new List<Vector3>();
@@ -23,6 +23,8 @@ public class Anthill : MonoBehaviour
 
     private int percentageSoldiers = 15;
     private int storedFood;
+
+    private int anthillStructurePoints = 1000;
 
     // Start is called before the first frame update
     void Start()
@@ -65,6 +67,32 @@ public class Anthill : MonoBehaviour
         
     }
 
+    public void ManageStructureDamage()
+    {
+        anthillStructurePoints -= 10;
+
+        if (anthillStructurePoints < 1)
+        {
+            if (isPlayer)
+            {
+                Debug.Log("GAME OVER!");
+            }
+
+            //pack upp all the ants
+            Ant[] ants = FindObjectsOfType<Ant>();
+
+            foreach (Ant ant in ants)
+            {
+                if (ReferenceEquals(ant.homeAnthill, gameObject))
+                {
+                    ant.ChangeAntToFood();
+                }
+            }
+
+                Destroy(gameObject,1f);  //TODO: Fix!  
+        }
+    }
+
     public void StoreFood(int amount)
     {
         storedFood += amount;
@@ -91,5 +119,20 @@ public class Anthill : MonoBehaviour
     public string ReportHillStatus()
     {
         return ("Anthill1: Resource: " + storedFood + " " + antCount + "Ants (" + percentageSoldiers + "% soldiers)");
+    }
+
+    public void ChangePercentageSoldiers(int amount)
+    {
+        percentageSoldiers += amount;
+
+        if (percentageSoldiers < 0)
+        {
+            percentageSoldiers = 0;
+        }
+
+        if (percentageSoldiers > 100)
+        {
+            percentageSoldiers = 100;
+        }
     }
 }
